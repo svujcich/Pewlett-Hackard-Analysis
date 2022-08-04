@@ -79,3 +79,32 @@ FROM employees AS e
 WHERE (t.to_date = '9999-01-01')
 ORDER BY e.emp_no ASC;
 --240,124 current emp
+
+--readme results details
+-- Retrieve the number of employees who are eligible for the mentorship program
+SELECT COUNT(me.title), me.title
+INTO mentorship_titles
+FROM mentorship_eligibility as me
+GROUP BY me.title
+ORDER BY COUNT(me.title) DESC;
+
+
+--1a.find complete list of remaining employees
+SELECT DISTINCT ON(e.emp_no)e.emp_no,
+	e.first_name,
+	e.last_name,
+	e.birth_date,
+	t.title,
+	t.from_date,
+	t.to_date
+INTO remaining_employees 
+FROM employees AS e
+	INNER JOIN titles AS t
+		ON (e.emp_no = t.emp_no)
+WHERE (e.birth_date NOT BETWEEN '1952-01-01' AND '1955-12-31')
+	AND (t.to_date = '9999-01-01')
+ORDER BY e.emp_no ASC;
+
+-- 1b.Organize remaining employees 
+SELECT * FROM remaining_employees AS re 
+ORDER BY (title, from_date) ASC;

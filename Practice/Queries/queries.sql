@@ -172,3 +172,18 @@ FROM current_emp as ce
 	INNER JOIN departments AS d
 		ON (de.dept_no = d.dept_no)
 WHERE d.dept_name IN ('Sales','Development') ;
+
+--find total# of remaining employees
+SELECT DISTINCT ON(e.emp_no)e.emp_no,
+	e.first_name,
+	e.last_name,
+	t.title,
+	t.from_date,
+	t.to_date
+--INTO remaining_employees
+FROM employees AS e
+	INNER JOIN titles AS t
+		ON (e.emp_no = t.emp_no)
+WHERE (t.to_date = '9999-01-01')
+ORDER BY t.from_date ASC; 
+--AND t.title ASC;
