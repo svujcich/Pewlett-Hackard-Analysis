@@ -105,6 +105,12 @@ WHERE (e.birth_date NOT BETWEEN '1952-01-01' AND '1955-12-31')
 	AND (t.to_date = '9999-01-01')
 ORDER BY e.emp_no ASC;
 
--- 1b.Organize remaining employees 
-SELECT * FROM remaining_employees AS re 
+-- 1b.Organize remaining employees to show only engineering related titles, 
+-- Order by the title first, starting date second.
+SELECT * FROM remaining_employees AS re
+WHERE title IN ('Assistant Engineer','Engineer','Senior Engineer')
 ORDER BY (title, from_date) ASC;
+
+--Run a query to count the number of individuals who would be eligible for the mentorship program if the criteria was modified
+SELECT COUNT(emp_no) FROM remaining_employees
+WHERE (birth_date BETWEEN '1962-01-01' AND '1965-12-31')
